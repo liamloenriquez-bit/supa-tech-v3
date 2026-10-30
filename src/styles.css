@@ -1,0 +1,50 @@
+export function renderInterfaceCustomization(appState) {
+  const accentOptions = ['#48d9ff', '#9a7bff', '#63f0d2', '#ff7fe5'];
+  const swatches = accentOptions
+    .map(
+      (color) => `
+        <button
+          type="button"
+          class="swatch ${appState.settings.accent === color ? 'selected' : ''}"
+          data-action="set-accent"
+          data-color="${color}"
+          style="background:${color};"
+          aria-label="Set accent color ${color}"
+        ></button>
+      `
+    )
+    .join('');
+
+  return `
+    <div class="module-header">
+      <div>
+        <p class="eyebrow">Styling</p>
+        <h1>Interface Customization</h1>
+      </div>
+      <button class="primary-button" type="button" data-action="apply-theme">Apply Theme</button>
+    </div>
+
+    <div class="panel-grid two-up">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Accent Palette</h2>
+        </div>
+        <div class="swatch-grid">${swatches}</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Visual Density</h2>
+        </div>
+        <div class="slider-wrap">
+          <label for="radiusSlider">Corner Radius</label>
+          <input id="radiusSlider" type="range" min="10" max="30" value="${appState.settings.radius}" data-setting="radius" />
+        </div>
+        <div class="slider-wrap">
+          <label for="densitySlider">Density</label>
+          <input id="densitySlider" type="range" min="0.8" max="1.2" step="0.05" value="${appState.settings.density}" data-setting="density" />
+        </div>
+      </div>
+    </div>
+  `;
+}
